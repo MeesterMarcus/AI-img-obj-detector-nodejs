@@ -3,7 +3,7 @@ import { validateImageGetParams } from "../middleware/images.middleware";
 import { basicAuth } from "../middleware/auth.middleware"; // Import the middleware
 import axios from "axios";
 import { Image } from "../schemas/image";
-import { faker } from '@faker-js/faker';
+import ImageService from "../services/Images.service";
 
 const router = Router();
 const baseUrl = '/images'
@@ -35,27 +35,16 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
 });
 
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
-    const body = req.body
-    const imgData = body.imgData
-    const label = body.label ? body.label : faker.string.uuid()
-    console.log(label)
-    const enableObjectDetection = body.enableObjectDetection
-    const objects = []
-    // TODO: use imagga
-    if (enableObjectDetection) {
-        objects.push('dog')
+    try {
+        const result = await ImageService.createImage(req.body);
+        return res.status(200).send({
+            message: "Successfully saved image document",
+            body: result
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).send('Error processing image');
     }
-    const entity = { imgData, label, objects }
-    console.log(entity)
-    const image = Image.build(entity)
-    const result = await image.save()
-    return res.status(200).send({
-        message: "Successfully saved image document",
-        body: {
-            _id: result._id,
-            ...entity
-        }
-    });
 });
 
 export default router;
