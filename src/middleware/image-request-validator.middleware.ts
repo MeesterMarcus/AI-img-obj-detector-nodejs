@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ImagesGetQueryParams } from '../models/images.models';
+import { ImagesGetQueryParams } from '../models/image-metadata';
 
 export function validateImageGetParams(req: Request, res: Response, next: NextFunction): void {
     const qsParams: ImagesGetQueryParams = req.query;

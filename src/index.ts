@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 dotenv.config();
 
 import express, { Application } from "express";
-import detectorRouter from './routes/images.route'; // ensure the path is correct
+import detectorRouter from './routes/image-metadata.routes'; // ensure the path is correct
 
 const app: Application = express();
 

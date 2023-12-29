@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import { IImage } from '../models/images.models'
+import { ImageMetadata } from '../models/image-metadata'
 
 interface imageModelInterface extends mongoose.Model<ImageDoc> {
-    build(attr: IImage): ImageDoc
+    build(attr: ImageMetadata): ImageDoc
 }
 
 interface ImageDoc extends mongoose.Document {
@@ -28,7 +28,7 @@ const imageSchema = new mongoose.Schema({
 
 imageSchema.index({ objects: 1})
 
-imageSchema.statics.build = (attr: IImage) => {
+imageSchema.statics.build = (attr: ImageMetadata) => {
     return new Image(attr)
 }
 
