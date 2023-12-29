@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { validateImageGetParams } from "../middleware/images.middleware";
 import { basicAuth } from "../middleware/auth.middleware"; // Import the middleware
 import axios from "axios";
+import { Image } from "../schemas/image";
 
 const router = Router();
 const baseUrl = '/images'
@@ -25,8 +26,20 @@ router.get(`${baseUrl}/test`, basicAuth, async (req: Request, res: Response): Pr
 });
 
 router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Response): Promise<Response> => {
+    const images = Image.find({})
+    console.log(images)
     return res.status(200).send({
         message: "Hello World!",
+    });
+});
+
+router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
+    const body = { imgData: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Labrador_Retriever_portrait.jpg/1200px-Labrador_Retriever_portrait.jpg', label: 'doggo', objects: ['dog'] }
+    const image = Image.build(body)
+    await image.save()
+    return res.status(200).send({
+        message: "Successfully saved image document",
+        body: body
     });
 });
 
