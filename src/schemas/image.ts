@@ -26,6 +26,8 @@ const imageSchema = new mongoose.Schema({
     }
 })
 
+imageSchema.index({ objects: 1})
+
 imageSchema.statics.build = (attr: IImage) => {
     return new Image(attr)
 }

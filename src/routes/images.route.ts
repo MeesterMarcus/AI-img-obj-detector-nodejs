@@ -34,7 +34,7 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
 });
 
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
-    const body = { imgData: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Labrador_Retriever_portrait.jpg/1200px-Labrador_Retriever_portrait.jpg', label: 'doggo', objects: ['dog'] }
+    const body = { imgData: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Labrador_Retriever_portrait.jpg/1200px-Labrador_Retriever_portrait.jpg', label: 'doggo2', objects: ['dog'] }
     const image = Image.build(body)
     await image.save()
     return res.status(200).send({
