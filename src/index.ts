@@ -1,7 +1,7 @@
 // app.ts or server.ts
 
 import express, { Application } from "express";
-import detectorRouter from './routes/detector.route'; // ensure the path is correct
+import detectorRouter from './routes/images.route'; // ensure the path is correct
 
 const app: Application = express();
 
