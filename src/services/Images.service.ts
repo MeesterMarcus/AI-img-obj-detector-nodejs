@@ -39,6 +39,10 @@ class ImageService {
         }
     }
 
+    static async retrieveImagesByObjects(objects: string[]) {
+        console.log("todo")
+    }
+
     private static extractHighConfidenceTags(response: any): string[] {
         // Accessing the tags array
         const tags = response.result.tags;

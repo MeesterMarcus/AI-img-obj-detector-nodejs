@@ -21,11 +21,17 @@ router.get(`${baseUrl}/test`, async (req: Request, res: Response): Promise<Respo
 });
 
 router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Response): Promise<Response> => {
-    const images = Image.find({})
-    console.log(images)
-    return res.status(200).send({
-        message: "Hello World!",
-    });
+    let images
+    if (req.query.objects && typeof req.query.objects === 'string') {
+        const objects: string = req.query.objects;
+        const objectsArr = objects.split(',')
+        images = await Image.find({
+            'objects': { $in: objectsArr }
+        });
+    } else {
+        images = await Image.find({})
+    }
+    return res.status(200).send(images);
 });
 
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
