@@ -9,6 +9,10 @@ import detectorRouter from './routes/images.route'; // ensure the path is correc
 
 const app: Application = express();
 
+// Built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: true }));
+// Built-in middleware for json
+app.use(express.json());
 // Use the routes
 app.use('/', detectorRouter);
 

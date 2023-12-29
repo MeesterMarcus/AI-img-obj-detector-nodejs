@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { ImagesGetRequestParams } from '../models/images.models';
+import { ImagesGetQueryParams } from '../models/images.models';
 
 export function validateImageGetParams(req: Request, res: Response, next: NextFunction): void {
-    const qsParams: ImagesGetRequestParams = req.query;
+    const qsParams: ImagesGetQueryParams = req.query;
 
     // Verify qsParams is either empty or contains only the key 'objects'
     const keys = Object.keys(qsParams);
@@ -18,7 +18,7 @@ export function validateImageGetParams(req: Request, res: Response, next: NextFu
     }
 }
 
-const isValidImageGetParams = (param: ImagesGetRequestParams) => {
+const isValidImageGetParams = (param: ImagesGetQueryParams) => {
     const values = param.objects;
     try {
         const valuesArr = values?.split(',');
