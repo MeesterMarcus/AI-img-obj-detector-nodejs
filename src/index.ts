@@ -1,4 +1,6 @@
 // app.ts or server.ts
+import dotenv from 'dotenv';
+dotenv.config();
 
 import express, { Application } from "express";
 import detectorRouter from './routes/images.route'; // ensure the path is correct
@@ -14,6 +16,7 @@ try {
     app.listen(PORT, (): void => {
         console.log(`Connected successfully on port ${PORT}`);
     });
-} catch (error: any) {
-    console.error(`Error occurred: ${error.message}`);
+} catch (error: unknown) {
+    console.error(`Error occurred: ${error}`);
 }
+

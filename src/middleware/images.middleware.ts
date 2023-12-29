@@ -30,7 +30,7 @@ const isValidImageGetParams = (param: ImagesGetRequestParams) => {
             }
         }
         return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error parsing query params', error);
         return false;
     }
