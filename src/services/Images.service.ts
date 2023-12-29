@@ -14,7 +14,6 @@ class ImageService {
         }
 
         const entity = { imgData, label, objects };
-        console.log(entity);
 
         const image = Image.build(entity);
         const result = await image.save();
