@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { validateImageGetParams } from "../middleware/image-request-validator.middleware";
-import { Image } from "../schemas/image-metadata";
+import { ImageMetadata } from "../schemas/image-metadata";
 import ImageService from "../services/image.service";
 
 const router = Router();
@@ -14,11 +14,11 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
     if (req.query.objects && typeof req.query.objects === 'string') {
         const objects: string = req.query.objects;
         const objectsArr = objects.split(',')
-        images = await Image.find({
+        images = await ImageMetadata.find({
             'objects': { $in: objectsArr }
         });
     } else {
-        images = await Image.find({})
+        images = await ImageMetadata.find({})
     }
     return res.status(200).send(images);
 });
@@ -28,7 +28,7 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
  */
 router.get(`${baseUrl}/:id`, async (req: Request, res: Response): Promise<Response> => {
     const id = req.params.id
-    const image = await Image.findById(id)
+    const image = await ImageMetadata.findById(id)
     return res.status(200).send(image);
 });
 

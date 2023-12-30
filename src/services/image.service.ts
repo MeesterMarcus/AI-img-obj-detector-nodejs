@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Image } from "../schemas/image-metadata";
+import { ImageMetadata } from "../schemas/image-metadata";
 import { faker } from '@faker-js/faker';
 import { ImaggaResponse, Tag } from "../models/imagga";
 import { ImageMetadataEntity, ImagePostRequestParams } from "../models/image-metadata";
@@ -23,7 +23,7 @@ class ImageService {
 
         const entity = { imgUrl, label, objects };
 
-        const image = Image.build(entity);
+        const image = ImageMetadata.build(entity);
         
         let result
         // if dryRun enabled, do not persist data

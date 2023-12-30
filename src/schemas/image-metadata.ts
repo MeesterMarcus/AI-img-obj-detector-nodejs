@@ -5,17 +5,17 @@ import { ImageMetadata } from '../models/image-metadata'
  * Workaround to enforce TypeScript typings with regards to Mongoose / MongoDB.
  */
 
-interface imageModelInterface extends mongoose.Model<ImageDoc> {
-    build(attr: ImageMetadata): ImageDoc
+interface imageModelInterface extends mongoose.Model<ImageMetadataDoc> {
+    build(attr: ImageMetadata): ImageMetadataDoc
 }
 
-interface ImageDoc extends mongoose.Document {
+interface ImageMetadataDoc extends mongoose.Document {
     imgUrl: string;
     label: string;
     objects: Array<string>;
 }
 
-const imageSchema = new mongoose.Schema({
+const imageMetadataSchema = new mongoose.Schema({
     imgUrl: {
         type: String,
         required: true,
@@ -30,12 +30,12 @@ const imageSchema = new mongoose.Schema({
     }
 })
 
-imageSchema.index({ objects: 1})
+imageMetadataSchema.index({ objects: 1})
 
-imageSchema.statics.build = (attr: ImageMetadata) => {
-    return new Image(attr)
+imageMetadataSchema.statics.build = (attr: ImageMetadata) => {
+    return new ImageMetadata(attr)
 }
 
-const Image = mongoose.model<ImageDoc, imageModelInterface>('Image', imageSchema)
+const ImageMetadata = mongoose.model<ImageMetadataDoc, imageModelInterface>('Image', imageMetadataSchema)
 
-export { Image }
+export { ImageMetadata }
