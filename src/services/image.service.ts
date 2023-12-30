@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { ImageMetadata } from "../schemas/image-metadata";
 import { faker } from '@faker-js/faker';
-import { ImaggaResponse, Tag } from "../models/imagga";
+import { ImaggaResponse, Tag, UploadResponse } from "../models/imagga";
 import { ImageMetadataEntity, ImagePostRequestParams } from "../models/image-metadata";
 import FormData from "form-data";
 import * as fs from 'fs';
+import { Response } from "express";
 
 class ImageService {
     /**
@@ -13,23 +14,23 @@ class ImageService {
      * @param authorizationHeader 
      * @returns 
      */
-    static async createImage(body: ImagePostRequestParams, authorizationHeader: string): Promise<ImageMetadataEntity> {
+    static async createImage(body: ImagePostRequestParams, isUploadedFile: boolean, authorizationHeader: string): Promise<ImageMetadataEntity> {
         const imgUrl = body.imgUrl;
         const label = body.label ? body.label : faker.string.uuid();
         const enableObjectDetection = body.enableObjectDetection;
         let objects: string[] = [];
 
         if (enableObjectDetection) {
-            objects = await this.parseImage(imgUrl, authorizationHeader)
+            objects = await this.parseImage(imgUrl, isUploadedFile, authorizationHeader)
         }
 
         const entity = { imgUrl, label, objects };
 
         const image = ImageMetadata.build(entity);
-        
+
         let result
         // if dryRun enabled, do not persist data
-        if(!body.dryRun) {
+        if (!body.dryRun) {
             result = await image.save();
         }
 
@@ -45,8 +46,13 @@ class ImageService {
      * @param authorizationHeader 
      * @returns Promise<string[]>
      */
-    static async parseImage(imageUrl: string, authorizationHeader: string): Promise<string[]> {
-        const url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(imageUrl)}`;
+    static async parseImage(imageUrl: string, isUploadedFile: boolean, authorizationHeader: string): Promise<string[]> {
+        let url
+        if (isUploadedFile) {
+            url = `https://api.imagga.com/v2/tags?image_upload_id=${encodeURIComponent(imageUrl)}`
+        } else {
+            url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(imageUrl)}`;
+        }
         try {
             const response = await axios.get(url, {
                 headers: {
@@ -60,18 +66,17 @@ class ImageService {
         }
     }
 
-    static async uploadImage(filePath: string, authorizationHeader: string): Promise<string[]> {
+    static async uploadImage(filePath: string, authorizationHeader: string): Promise<AxiosResponse> {
         const formData = new FormData();
         formData.append('image', fs.createReadStream(filePath));
-        const url = 'https://api.imagga.com/v2/upload'
+        const url = 'https://api.imagga.com/v2/uploads'
+
         try {
-            const response = await axios.post(url, {
-                body: formData,
+            return await axios.post(url, formData, {
                 headers: {
                     'Authorization': authorizationHeader
                 }
             });
-            return ImageService.extractHighConfidenceTags(response.data);
         } catch (error) {
             // Rethrow the error or create a custom error as needed
             throw error;
@@ -87,7 +92,7 @@ class ImageService {
     private static extractHighConfidenceTags(response: ImaggaResponse): string[] {
         // Accessing the tags array
         const tags = response.result.tags;
-    
+
         // Filtering and mapping
         return tags
             .filter((tag: Tag) => tag.confidence > 70) // Filter tags with confidence > 70
@@ -96,3 +101,24 @@ class ImageService {
 }
 
 export default ImageService;
+
+
+// const got = require('got'); // if you don't have "got" - install it with "npm install got"
+// const fs = require('fs');
+// const FormData = require('form-data');
+
+// const apiKey = '&lt;replace-with-your-api-key&gt;';
+// const apiSecret = '&lt;replace-with-your-api-secret&gt;';
+
+// const filePath = '/path/to/image.jpg';
+// const formData = new FormData();
+// formData.append('image', fs.createReadStream(filePath));
+
+// (async () => {
+//     try {
+//         const response = await got.post('https://api.imagga.com/v2/uploads', {body: formData, username: apiKey, password: apiSecret});
+//         console.log(response.body);
+//     } catch (error) {
+//         console.log(error.response.body);
+//     }
+// })();

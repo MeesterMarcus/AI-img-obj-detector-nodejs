@@ -2,6 +2,9 @@ import { Router, Request, Response } from "express";
 import { validateImageGetParams } from "../middleware/image-request-validator.middleware";
 import { ImageMetadata } from "../schemas/image-metadata";
 import ImageService from "../services/image.service";
+import { isLocalFile } from "../lib/check-filepath";
+import * as fs from 'fs';
+import { validateObjectId } from "../middleware/object-id-validator.middleware";
 
 const router = Router();
 const baseUrl = '/images'
@@ -26,9 +29,12 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
 /**
  * Retrieve an image by its _id
  */
-router.get(`${baseUrl}/:id`, async (req: Request, res: Response): Promise<Response> => {
+router.get(`${baseUrl}/:id`, validateObjectId, async (req: Request, res: Response): Promise<Response> => {
     const id = req.params.id
     const image = await ImageMetadata.findById(id)
+    if (!image) {
+        return res.status(404).send({ message: 'Image not found'})
+    }
     return res.status(200).send(image);
 });
 
@@ -37,15 +43,29 @@ router.get(`${baseUrl}/:id`, async (req: Request, res: Response): Promise<Respon
  */
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
     if (!req.headers.authorization) {
-        throw new Error("Missing authorization")
+        return res.status(401).send('Missing authorization header');
     }
+    let imgUrl = req.body.imgUrl
+    let isUploadedFile = false
+
     try {
-        const result = await ImageService.createImage(req.body, req.headers.authorization);
-        return res.status(200).send({
-            ...result
-        });
-    } catch (error) {
-        console.error('Error:', error);
+        if (isLocalFile(imgUrl)) {
+            if (!fs.existsSync(imgUrl)) {
+                return res.status(404).send({ messages: "The file you are attempting to upload does not exist" })
+            }
+            isUploadedFile = true
+            const response = await ImageService.uploadImage(imgUrl, req.headers.authorization)
+            const { data } = response
+            imgUrl = data.result.upload_id
+        }
+        const updatedBody = { ...req.body, imgUrl}
+        const result = await ImageService.createImage(updatedBody, isUploadedFile, req.headers.authorization);
+            return res.status(200).send({
+                ...result
+            });
+    }
+
+    catch (error) {
         return res.status(500).send('Error processing image');
     }
 });

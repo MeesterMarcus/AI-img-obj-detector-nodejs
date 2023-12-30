@@ -24,3 +24,12 @@ export interface ImaggaStatus {
     text: string
     type: string
 }
+
+export interface UploadResponse {
+    result: UploadResult
+    status: ImaggaStatus
+}
+
+export interface UploadResult {
+    upload_id: string
+}
