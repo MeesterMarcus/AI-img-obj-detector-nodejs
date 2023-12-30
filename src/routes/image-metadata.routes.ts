@@ -5,7 +5,7 @@ import ImageService from "../services/image.service";
 import { isLocalFile } from "../lib/check-filepath";
 import { validateObjectId } from "../middleware/object-id-validator.middleware";
 import { HTTP_STATUS } from "../constants/http-status.constants";
-import { FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/response-messages.constants";
+import { FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/messages.constants";
 import * as fs from 'fs';
 
 const router = Router();

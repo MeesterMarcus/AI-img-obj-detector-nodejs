@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/http-status.constants";
-import { INVALID_ID } from "../constants/response-messages.constants";
+import { INVALID_ID } from "../constants/messages.constants";
 
 /**
  * Ensure that the passed in query parameters are valid

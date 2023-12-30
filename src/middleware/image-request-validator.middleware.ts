@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ImagesGetQueryParams } from '../models/image-metadata';
 import { HTTP_STATUS } from '../constants/http-status.constants';
-import { INVALID_REQUEST_OBJECTS_VALUE, INVALID_REQUEST_OBJECTS } from '../constants/response-messages.constants';
+import { INVALID_REQUEST_OBJECTS_VALUE, INVALID_REQUEST_OBJECTS } from '../constants/messages.constants';
 
 /**
  * Ensure that the passed in query parameters are valid
