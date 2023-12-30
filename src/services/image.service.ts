@@ -14,6 +14,22 @@ import { IMAGE_FILE_NOT_FOUND } from '../constants/messages.constants';
  * Singleton ImageService that provides operations on image data
  */
 class ImageService {
+  static async getImagesByObjects(
+    objects: string[],
+  ): Promise<ImageMetadataEntity[]> {
+    if (objects.length === 0) {
+      return ImageMetadata.find({});
+    }
+
+    return ImageMetadata.find({
+      objects: { $in: objects },
+    });
+  }
+
+  static async getImageById(id: string): Promise<ImageMetadataEntity | null> {
+    return ImageMetadata.findById(id);
+  }
+
   /**
    * Create an image and add to the database, applying object detection
    * if requested.

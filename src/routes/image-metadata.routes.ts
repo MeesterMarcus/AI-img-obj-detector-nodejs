@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
 import { validateImageGetParams } from '../middleware/image-request-validator.middleware';
-import { ImageMetadata } from '../schemas/image-metadata';
 import ImageService from '../services/image.service';
 import { isLocalFile } from '../lib/check-filepath';
 import { validateObjectId } from '../middleware/object-id-validator.middleware';
@@ -9,6 +8,7 @@ import { IMAGE_NOT_FOUND } from '../constants/messages.constants';
 import { checkAuthorization } from '../middleware/auth-check.middleware';
 import { handleImageServiceError } from '../lib/handle-error';
 import { validateImage } from '../middleware/validate-image.middleware';
+import { parseQueryObjects } from '../lib/parse-query';
 
 const router = Router();
 const baseUrl = '/images';
@@ -20,17 +20,13 @@ router.get(
   `${baseUrl}`,
   validateImageGetParams,
   async (req: Request, res: Response): Promise<Response> => {
-    let images;
-    if (req.query.objects && typeof req.query.objects === 'string') {
-      const objects: string = req.query.objects;
-      const objectsArr = objects.split(',');
-      images = await ImageMetadata.find({
-        objects: { $in: objectsArr },
-      });
-    } else {
-      images = await ImageMetadata.find({});
+    try {
+      const objectsArr = parseQueryObjects(req);
+      const images = await ImageService.getImagesByObjects(objectsArr);
+      return res.status(HTTP_STATUS.OKAY).send(images);
+    } catch (error) {
+      return handleImageServiceError(error as Error, res);
     }
-    return res.status(HTTP_STATUS.OKAY).send(images);
   },
 );
 
@@ -41,14 +37,20 @@ router.get(
   `${baseUrl}/:id`,
   validateObjectId,
   async (req: Request, res: Response): Promise<Response> => {
-    const id = req.params.id;
-    const image = await ImageMetadata.findById(id);
-    if (!image) {
-      return res
-        .status(HTTP_STATUS.BAD_REQUEST)
-        .send({ message: IMAGE_NOT_FOUND });
+    try {
+      const id = req.params.id;
+      const image = await ImageService.getImageById(id);
+
+      if (!image) {
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send({ message: IMAGE_NOT_FOUND });
+      }
+
+      return res.status(HTTP_STATUS.OKAY).send(image);
+    } catch (error) {
+      return handleImageServiceError(error as Error, res);
     }
-    return res.status(HTTP_STATUS.OKAY).send(image);
   },
 );
 
