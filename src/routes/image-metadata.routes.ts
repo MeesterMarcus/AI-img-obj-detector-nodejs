@@ -13,7 +13,6 @@ import {
   MISSING_AUTH,
 } from '../constants/messages.constants';
 import { isValidImage } from '../lib/valid-image';
-import * as fs from 'fs';
 
 const router = Router();
 const baseUrl = '/images';
@@ -79,17 +78,11 @@ router.post(
     try {
       // check if the file provided by client is a remote url or local
       if (isLocalFile(imgUrl)) {
-        if (!fs.existsSync(imgUrl)) {
-          return res.status(404).send({ messages: IMAGE_FILE_NOT_FOUND });
-        }
-        // if it is a local file, upload it to Imagga + set isUploadFile to true
         isUploadedFile = true;
-        const response = await ImageService.uploadImage(
+        imgUrl = await ImageService.handleLocalFile(
           imgUrl,
           req.headers.authorization,
         );
-        const { data } = response;
-        imgUrl = data.result.upload_id;
       }
       // update the body and create the image
       const updatedBody = { ...req.body, imgUrl };
@@ -102,6 +95,10 @@ router.post(
         ...result,
       });
     } catch (error) {
+      const msg = (error as Error).message;
+      if (msg === IMAGE_FILE_NOT_FOUND) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(IMAGE_FILE_NOT_FOUND);
+      }
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send(IMAGE_PROCESSING_FAILED);

@@ -8,6 +8,7 @@ import {
 import FormData from 'form-data';
 import * as fs from 'fs';
 import { extractHighConfidenceTags } from '../lib/extract-tags';
+import { IMAGE_FILE_NOT_FOUND } from '../constants/messages.constants';
 
 /**
  * Singleton ImageService that provides operations on image data
@@ -106,6 +107,23 @@ class ImageService {
         Authorization: authorizationHeader,
       },
     });
+  }
+
+  static async handleLocalFile(
+    imgUrl: string,
+    authorizationHeader: string,
+  ): Promise<string> {
+    if (!fs.existsSync(imgUrl)) {
+      throw Error(IMAGE_FILE_NOT_FOUND);
+    }
+    // If it is a local file, upload it to Imagga and set
+    // isUploadFile to true
+    const response = await ImageService.uploadImage(
+      imgUrl,
+      authorizationHeader,
+    );
+    const { data } = response;
+    return data.result.upload_id;
   }
 }
 
