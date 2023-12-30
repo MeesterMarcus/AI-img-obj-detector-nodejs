@@ -7,6 +7,7 @@
 
 ## Endpoints
 * GET `http://localhost:3000/images`
+* GET `http://localhost:3000/images/:id`
 * POST `http://localhost:3000/images`
 * Postman collection available in resources folder
 
