@@ -6,7 +6,6 @@ import {
   IMAGE_PROCESSING_FAILED,
 } from '../constants/messages.constants';
 
-// Create a function to handle errors and send responses
 export const handleImageServiceError = (error: Error, res: Response) => {
   const msg = error.message;
 
