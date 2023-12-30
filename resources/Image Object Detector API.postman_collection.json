@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/images?objects=dog,cat",
+					"raw": "http://localhost:3000/images?objects=cat,fox",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,7 +24,7 @@
 					"query": [
 						{
 							"key": "objects",
-							"value": "dog,cat"
+							"value": "cat,fox"
 						}
 					]
 				}
@@ -73,7 +73,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"imgUrl\": \"https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg\",\r\n    \"label\": \"cat\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": true\r\n}",
+					"raw": "{\r\n    \"imgUrl\": \"https://i.natgeofe.com/n/9b97e60e-e8db-4961-853b-d68ba28d7629/red-fox_thumb.JPG\",\r\n    \"label\": \"fox\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
