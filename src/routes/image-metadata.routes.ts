@@ -5,14 +5,10 @@ import ImageService from '../services/image.service';
 import { isLocalFile } from '../lib/check-filepath';
 import { validateObjectId } from '../middleware/object-id-validator.middleware';
 import { HTTP_STATUS } from '../constants/http-status.constants';
-import {
-  IMAGE_FILE_NOT_FOUND,
-  IMAGE_FILE_TYPE_UNSUPPORTED,
-  IMAGE_NOT_FOUND,
-  IMAGE_PROCESSING_FAILED,
-  MISSING_AUTH,
-} from '../constants/messages.constants';
-import { isValidImage } from '../lib/valid-image';
+import { IMAGE_NOT_FOUND } from '../constants/messages.constants';
+import { checkAuthorization } from '../middleware/auth-check.middleware';
+import { handleImageServiceError } from '../lib/handle-error';
+import { validateImage } from '../middleware/validate-image.middleware';
 
 const router = Router();
 const baseUrl = '/images';
@@ -62,46 +58,31 @@ router.get(
  */
 router.post(
   `${baseUrl}`,
+  checkAuthorization,
+  validateImage,
   async (req: Request, res: Response): Promise<Response> => {
-    if (!req.headers.authorization) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(MISSING_AUTH);
-    }
+    const auth = req.headers.authorization as string;
     let imgUrl = req.body.imgUrl;
     let isUploadedFile = false;
-
-    if (!isValidImage(imgUrl)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).send({
-        message: IMAGE_FILE_TYPE_UNSUPPORTED,
-      });
-    }
 
     try {
       // check if the file provided by client is a remote url or local
       if (isLocalFile(imgUrl)) {
         isUploadedFile = true;
-        imgUrl = await ImageService.handleLocalFile(
-          imgUrl,
-          req.headers.authorization,
-        );
+        imgUrl = await ImageService.handleLocalFile(imgUrl, auth);
       }
       // update the body and create the image
       const updatedBody = { ...req.body, imgUrl };
       const result = await ImageService.createImage(
         updatedBody,
         isUploadedFile,
-        req.headers.authorization,
+        auth,
       );
       return res.status(HTTP_STATUS.OKAY).send({
         ...result,
       });
     } catch (error) {
-      const msg = (error as Error).message;
-      if (msg === IMAGE_FILE_NOT_FOUND) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send(IMAGE_FILE_NOT_FOUND);
-      }
-      return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send(IMAGE_PROCESSING_FAILED);
+      return handleImageServiceError(error as Error, res);
     }
   },
 );
