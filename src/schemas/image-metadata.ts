@@ -1,18 +1,22 @@
 import mongoose from 'mongoose'
 import { ImageMetadata } from '../models/image-metadata'
 
+/**
+ * Workaround to enforce TypeScript typings with regards to Mongoose / MongoDB.
+ */
+
 interface imageModelInterface extends mongoose.Model<ImageDoc> {
     build(attr: ImageMetadata): ImageDoc
 }
 
 interface ImageDoc extends mongoose.Document {
-    imgData: string;
+    imgUrl: string;
     label: string;
     objects: Array<string>;
 }
 
 const imageSchema = new mongoose.Schema({
-    imgData: {
+    imgUrl: {
         type: String,
         required: true,
     },

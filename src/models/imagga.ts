@@ -1,4 +1,6 @@
-// Tag type from Imagga
+/**
+ * Imagga Response Data Types
+ */
 
 export interface Tag {
     confidence: number

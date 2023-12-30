@@ -6,6 +6,9 @@ import ImageService from "../services/image.service";
 const router = Router();
 const baseUrl = '/images'
 
+/**
+ * Retrieve all images, optionally filtering by objects
+ */
 router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Response): Promise<Response> => {
     let images
     if (req.query.objects && typeof req.query.objects === 'string') {
@@ -20,6 +23,18 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
     return res.status(200).send(images);
 });
 
+/**
+ * Retrieve an image by its _id
+ */
+router.get(`${baseUrl}/:id`, async (req: Request, res: Response): Promise<Response> => {
+    const id = req.params.id
+    const image = await Image.findById(id)
+    return res.status(200).send(image);
+});
+
+/**
+ * Create a new image and persist in DB. If requested, parse image to detect objects and persist.
+ */
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
     if (!req.headers.authorization) {
         throw new Error("Missing authorization")
@@ -27,8 +42,7 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
     try {
         const result = await ImageService.createImage(req.body, req.headers.authorization);
         return res.status(200).send({
-            message: "Successfully saved image document",
-            body: result
+            ...result
         });
     } catch (error) {
         console.error('Error:', error);

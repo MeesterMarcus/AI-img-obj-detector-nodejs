@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { ImagesGetQueryParams } from '../models/image-metadata';
 
+/**
+ * Ensure that the passed in query parameters are valid
+ * @param req : Request
+ * @param res : Response
+ * @param next : NextFunction
+ */
 export function validateImageGetParams(req: Request, res: Response, next: NextFunction): void {
     const qsParams: ImagesGetQueryParams = req.query;
 
@@ -18,6 +24,11 @@ export function validateImageGetParams(req: Request, res: Response, next: NextFu
     }
 }
 
+/**
+ * Validate the 'objects' param
+ * @param param 
+ * @returns 
+ */
 const isValidImageGetParams = (param: ImagesGetQueryParams) => {
     const values = param.objects;
     try {
