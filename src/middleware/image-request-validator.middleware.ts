@@ -27,7 +27,7 @@ export function validateImageGetParams(req: Request, res: Response, next: NextFu
 /**
  * Validate the 'objects' param
  * @param param 
- * @returns 
+ * @returns boolean
  */
 const isValidImageGetParams = (param: ImagesGetQueryParams) => {
     const values = param.objects;

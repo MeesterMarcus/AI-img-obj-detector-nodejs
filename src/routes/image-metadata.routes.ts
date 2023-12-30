@@ -49,15 +49,18 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
     let isUploadedFile = false
 
     try {
+        // check if the file provided by client is a remote url or local
         if (isLocalFile(imgUrl)) {
             if (!fs.existsSync(imgUrl)) {
                 return res.status(404).send({ messages: "The file you are attempting to upload does not exist" })
             }
+            // if it is a local file, upload it to Imagga and set isUploadFile to true
             isUploadedFile = true
             const response = await ImageService.uploadImage(imgUrl, req.headers.authorization)
             const { data } = response
             imgUrl = data.result.upload_id
         }
+        // update the body and create the image
         const updatedBody = { ...req.body, imgUrl}
         const result = await ImageService.createImage(updatedBody, isUploadedFile, req.headers.authorization);
             return res.status(200).send({

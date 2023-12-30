@@ -1,22 +1,16 @@
-// app.ts or server.ts
 import dotenv from 'dotenv';
 import mongoose from 'mongoose'
-
-dotenv.config();
-
 import express, { Application } from "express";
-import detectorRouter from './routes/image-metadata.routes'; // ensure the path is correct
+import detectorRouter from './routes/image-metadata.routes';
+dotenv.config();
 
 const app: Application = express();
 
-// Built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: true }));
-// Built-in middleware for json
 app.use(express.json());
-// Use the routes
 app.use('/', detectorRouter);
 
-// Connect mongoose
+// Connect Mongoose
 async function connectToDatabase() {
     const dbUri = process.env.MONGO_DB_CONNECTION_STRING || 'defaultKey';
     

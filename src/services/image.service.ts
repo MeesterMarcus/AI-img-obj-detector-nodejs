@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { ImageMetadata } from "../schemas/image-metadata";
 import { faker } from '@faker-js/faker';
-import { ImaggaResponse, Tag } from "../models/imagga";
 import { ImageMetadataEntity, ImagePostRequestParams } from "../models/image-metadata";
 import FormData from "form-data";
 import * as fs from 'fs';
+import { extractHighConfidenceTags } from "../lib/extract-tags";
 
 class ImageService {
     /**
@@ -58,13 +58,20 @@ class ImageService {
                     'Authorization': authorizationHeader
                 }
             });
-            return ImageService.extractHighConfidenceTags(response.data);
+            return extractHighConfidenceTags(response.data);
         } catch (error) {
             // Rethrow the error or create a custom error as needed
             throw error;
         }
     }
 
+    /**
+     * Upload an image using Imagga's built-in uploading feature, and return the response which contains
+     * the upload_id. This upload_id can be used to parse an image.
+     * @param filePath : string 
+     * @param authorizationHeader : string
+     * @returns Promise<AxiosResponse>
+     */
     static async uploadImage(filePath: string, authorizationHeader: string): Promise<AxiosResponse> {
         const formData = new FormData();
         formData.append('image', fs.createReadStream(filePath));
@@ -80,22 +87,6 @@ class ImageService {
             // Rethrow the error or create a custom error as needed
             throw error;
         }
-    }
-
-    /**
-     * Filter the response to only include tags with high levels of confidence, and remap the object array
-     * to an array of strings representing the types of objects.
-     * @param response : ImaggaResponse
-     * @returns string[]
-     */
-    private static extractHighConfidenceTags(response: ImaggaResponse): string[] {
-        // Accessing the tags array
-        const tags = response.result.tags;
-
-        // Filtering and mapping
-        return tags
-            .filter((tag: Tag) => tag.confidence > 70) // Filter tags with confidence > 70
-            .map((tag: Tag) => tag.tag.en); // Map over the filtered tags to extract the 'en' value
     }
 }
 
