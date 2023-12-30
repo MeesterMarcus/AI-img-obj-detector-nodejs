@@ -17,7 +17,7 @@ export interface ImageMetadata {
 }
 
 export interface ImagePostRequestParams {
-    imgUrl: string
+    imgUrl: string // remote image url or local file path
     label?: string
     enableObjectDetection?: boolean
     dryRun?: boolean
