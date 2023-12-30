@@ -8,7 +8,11 @@ import { INVALID_ID } from '../constants/messages.constants';
  * @param res : Response
  * @param next : NextFunction
  */
-export function validateObjectId(req: Request, res: Response, next: NextFunction): void {
+export function validateObjectId(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   const id = req.params.id;
   if (isValidObjectId(id)) {
     next();

@@ -36,6 +36,9 @@ imageMetadataSchema.statics.build = (attr: ImageMetadata) => {
   return new ImageMetadata(attr);
 };
 
-const ImageMetadata = mongoose.model<ImageMetadataDoc, imageModelInterface>('Image', imageMetadataSchema);
+const ImageMetadata = mongoose.model<ImageMetadataDoc, imageModelInterface>(
+  'Image',
+  imageMetadataSchema,
+);
 
 export { ImageMetadata };

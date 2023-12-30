@@ -8,9 +8,12 @@ describe('getFileExtension', () => {
     ${'invalid-path'}                  | ${''}
     ${''}                              | ${''}
     ${'https://example.com/image.png'} | ${'.png'}
-  `('should return $expected for $filePathOrUrl', ({ filePathOrUrl, expected }) => {
-    expect(getFileExtension(filePathOrUrl)).toBe(expected);
-  });
+  `(
+    'should return $expected for $filePathOrUrl',
+    ({ filePathOrUrl, expected }) => {
+      expect(getFileExtension(filePathOrUrl)).toBe(expected);
+    },
+  );
 });
 
 describe('isValidImage', () => {

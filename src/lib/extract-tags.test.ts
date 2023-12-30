@@ -41,9 +41,11 @@ describe('extractHighConfidenceTags', () => {
     },
   ];
 
-  it.each(testData)('should retrieve tags with confidence above 75 for %p', ({ response, expected }) => {
-    const result = extractHighConfidenceTags(response as ImaggaResponse);
-    console.log(result);
-    expect(result).toEqual(expect.arrayContaining(expected));
-  });
+  it.each(testData)(
+    'should retrieve tags with confidence above 75 for %p',
+    ({ response, expected }) => {
+      const result = extractHighConfidenceTags(response as ImaggaResponse);
+      expect(result).toEqual(expect.arrayContaining(expected));
+    },
+  );
 });

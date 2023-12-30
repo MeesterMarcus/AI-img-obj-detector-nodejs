@@ -1,7 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { ImageMetadata } from '../schemas/image-metadata';
 import { faker } from '@faker-js/faker';
-import { ImageMetadataEntity, ImagePostRequestParams } from '../models/image-metadata';
+import {
+  ImageMetadataEntity,
+  ImagePostRequestParams,
+} from '../models/image-metadata';
 import FormData from 'form-data';
 import * as fs from 'fs';
 import { extractHighConfidenceTags } from '../lib/extract-tags';
@@ -11,7 +14,8 @@ import { extractHighConfidenceTags } from '../lib/extract-tags';
  */
 class ImageService {
   /**
-   * Create an image and add to the database, applying object detection if requested
+   * Create an image and add to the database, applying object detection
+   * if requested.
    * @param body
    * @param authorizationHeader
    * @returns
@@ -27,7 +31,11 @@ class ImageService {
     let objects: string[] = [];
 
     if (enableObjectDetection) {
-      objects = await this.parseImage(imgUrl, isUploadedFile, authorizationHeader);
+      objects = await this.parseImage(
+        imgUrl,
+        isUploadedFile,
+        authorizationHeader,
+      );
     }
 
     const entity = { imgUrl, label, objects };
@@ -47,17 +55,27 @@ class ImageService {
   }
 
   /**
-   * Use Imagga API to parse a passed in image url and determine the objects that are within the image.
+   * Use Imagga API to parse a passed in image url and determine the
+   * objects that are within the image.
    * @param imageUrl
    * @param authorizationHeader
    * @returns Promise<string[]>
    */
-  static async parseImage(imageUrl: string, isUploadedFile: boolean, authorizationHeader: string): Promise<string[]> {
+  static async parseImage(
+    imageUrl: string,
+    isUploadedFile: boolean,
+    authorizationHeader: string,
+  ): Promise<string[]> {
     let url;
     if (isUploadedFile) {
-      url = `https://api.imagga.com/v2/tags?image_upload_id=${encodeURIComponent(imageUrl)}`;
+      // eslint-disable-next-line max-len
+      url = `https://api.imagga.com/v2/tags?image_upload_id=${encodeURIComponent(
+        imageUrl,
+      )}`;
     } else {
-      url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(imageUrl)}`;
+      url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(
+        imageUrl,
+      )}`;
     }
     const response = await axios.get(url, {
       headers: {
@@ -68,13 +86,17 @@ class ImageService {
   }
 
   /**
-   * Upload an image using Imagga's built-in uploading feature, and return the response which contains
-   * the upload_id. This upload_id can be used to parse an image.
+   * Upload an image using Imagga's built-in uploading feature, and return
+   * the response which contains the upload_id. This upload_id can be used
+   * to parse an image.
    * @param filePath : string
    * @param authorizationHeader : string
    * @returns Promise<AxiosResponse>
    */
-  static async uploadImage(filePath: string, authorizationHeader: string): Promise<AxiosResponse> {
+  static async uploadImage(
+    filePath: string,
+    authorizationHeader: string,
+  ): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('image', fs.createReadStream(filePath));
     const url = 'https://api.imagga.com/v2/uploads';

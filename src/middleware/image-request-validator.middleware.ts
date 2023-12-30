@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { ImagesGetQueryParams } from '../models/image-metadata';
 import { HTTP_STATUS } from '../constants/http-status.constants';
-import { INVALID_REQUEST_OBJECTS_VALUE, INVALID_REQUEST_OBJECTS } from '../constants/messages.constants';
+import {
+  INVALID_REQUEST_OBJECTS_VALUE,
+  INVALID_REQUEST_OBJECTS,
+} from '../constants/messages.constants';
 
 /**
  * Ensure that the passed in query parameters are valid
@@ -9,7 +12,11 @@ import { INVALID_REQUEST_OBJECTS_VALUE, INVALID_REQUEST_OBJECTS } from '../const
  * @param res : Response
  * @param next : NextFunction
  */
-export function validateImageGetParams(req: Request, res: Response, next: NextFunction): void {
+export function validateImageGetParams(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   const qsParams: ImagesGetQueryParams = req.query;
 
   // Verify qsParams is either empty or contains only the key 'objects'
@@ -19,10 +26,14 @@ export function validateImageGetParams(req: Request, res: Response, next: NextFu
     if (!qsParams.objects || isValidImageGetParams(qsParams)) {
       next();
     } else {
-      res.status(HTTP_STATUS.BAD_REQUEST).send({ message: INVALID_REQUEST_OBJECTS_VALUE });
+      res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .send({ message: INVALID_REQUEST_OBJECTS_VALUE });
     }
   } else {
-    res.status(HTTP_STATUS.BAD_REQUEST).send({ message: INVALID_REQUEST_OBJECTS });
+    res
+      .status(HTTP_STATUS.BAD_REQUEST)
+      .send({ message: INVALID_REQUEST_OBJECTS });
   }
 }
 
