@@ -59,17 +59,12 @@ class ImageService {
     } else {
       url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(imageUrl)}`;
     }
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: authorizationHeader,
-        },
-      });
-      return extractHighConfidenceTags(response.data);
-    } catch (error) {
-      // Rethrow the error or create a custom error as needed
-      throw error;
-    }
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: authorizationHeader,
+      },
+    });
+    return extractHighConfidenceTags(response.data);
   }
 
   /**
@@ -84,16 +79,11 @@ class ImageService {
     formData.append('image', fs.createReadStream(filePath));
     const url = 'https://api.imagga.com/v2/uploads';
 
-    try {
-      return await axios.post(url, formData, {
-        headers: {
-          Authorization: authorizationHeader,
-        },
-      });
-    } catch (error) {
-      // Rethrow the error or create a custom error as needed
-      throw error;
-    }
+    return await axios.post(url, formData, {
+      headers: {
+        Authorization: authorizationHeader,
+      },
+    });
   }
 }
 
