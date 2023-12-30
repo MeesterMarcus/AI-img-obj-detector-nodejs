@@ -1,11 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { ImageMetadata } from "../schemas/image-metadata";
 import { faker } from '@faker-js/faker';
-import { ImaggaResponse, Tag, UploadResponse } from "../models/imagga";
+import { ImaggaResponse, Tag } from "../models/imagga";
 import { ImageMetadataEntity, ImagePostRequestParams } from "../models/image-metadata";
 import FormData from "form-data";
 import * as fs from 'fs';
-import { Response } from "express";
 
 class ImageService {
     /**
@@ -101,24 +100,3 @@ class ImageService {
 }
 
 export default ImageService;
-
-
-// const got = require('got'); // if you don't have "got" - install it with "npm install got"
-// const fs = require('fs');
-// const FormData = require('form-data');
-
-// const apiKey = '&lt;replace-with-your-api-key&gt;';
-// const apiSecret = '&lt;replace-with-your-api-secret&gt;';
-
-// const filePath = '/path/to/image.jpg';
-// const formData = new FormData();
-// formData.append('image', fs.createReadStream(filePath));
-
-// (async () => {
-//     try {
-//         const response = await got.post('https://api.imagga.com/v2/uploads', {body: formData, username: apiKey, password: apiSecret});
-//         console.log(response.body);
-//     } catch (error) {
-//         console.log(error.response.body);
-//     }
-// })();
