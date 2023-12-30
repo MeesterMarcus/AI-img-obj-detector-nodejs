@@ -3,6 +3,8 @@ import { ImageMetadata } from "../schemas/image-metadata";
 import { faker } from '@faker-js/faker';
 import { ImaggaResponse, Tag } from "../models/imagga";
 import { ImageMetadataEntity, ImagePostRequestParams } from "../models/image-metadata";
+import FormData from "form-data";
+import * as fs from 'fs';
 
 class ImageService {
     /**
@@ -47,6 +49,24 @@ class ImageService {
         const url = `https://api.imagga.com/v2/tags?image_url=${encodeURIComponent(imageUrl)}`;
         try {
             const response = await axios.get(url, {
+                headers: {
+                    'Authorization': authorizationHeader
+                }
+            });
+            return ImageService.extractHighConfidenceTags(response.data);
+        } catch (error) {
+            // Rethrow the error or create a custom error as needed
+            throw error;
+        }
+    }
+
+    static async uploadImage(filePath: string, authorizationHeader: string): Promise<string[]> {
+        const formData = new FormData();
+        formData.append('image', fs.createReadStream(filePath));
+        const url = 'https://api.imagga.com/v2/upload'
+        try {
+            const response = await axios.post(url, {
+                body: formData,
                 headers: {
                     'Authorization': authorizationHeader
                 }
