@@ -4,6 +4,6 @@
  * @returns boolean
  */
 export const isLocalFile = (url: string): boolean => {
-    const localFilePattern = /^(file:\/\/\/|[A-Za-z]:\\|\/)/;
-    return localFilePattern.test(url);
-}
+  const localFilePattern = /^(file:\/\/\/|[A-Za-z]:\\|\/)/;
+  return localFilePattern.test(url);
+};

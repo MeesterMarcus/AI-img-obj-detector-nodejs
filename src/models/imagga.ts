@@ -3,33 +3,33 @@
  */
 
 export interface Tag {
-    confidence: number
-    tag: TagLabel
+  confidence: number;
+  tag: TagLabel;
 }
 
 export interface TagLabel {
-    en: string
+  en: string;
 }
 
 export interface ImaggaResponse {
-    result: ImaggaResult
-    status: ImaggaStatus
+  result: ImaggaResult;
+  status: ImaggaStatus;
 }
 
 export interface ImaggaResult {
-    tags: Tag[]
+  tags: Tag[];
 }
 
 export interface ImaggaStatus {
-    text: string
-    type: string
+  text: string;
+  type: string;
 }
 
 export interface UploadResponse {
-    result: UploadResult
-    status: ImaggaStatus
+  result: UploadResult;
+  status: ImaggaStatus;
 }
 
 export interface UploadResult {
-    upload_id: string
+  upload_id: string;
 }

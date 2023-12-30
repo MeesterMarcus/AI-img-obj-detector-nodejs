@@ -1,12 +1,12 @@
-import { getFileExtension, isValidImage } from "./valid-image";
+import { getFileExtension, isValidImage } from './valid-image';
 
 describe('getFileExtension', () => {
   it.each`
-    filePathOrUrl               | expected
-    ${'/path/to/image.jpg'}     | ${'.jpg'}
-    ${'/another/file.png'}      | ${'.png'}
-    ${'invalid-path'}           | ${''}
-    ${''}                       | ${''}
+    filePathOrUrl                      | expected
+    ${'/path/to/image.jpg'}            | ${'.jpg'}
+    ${'/another/file.png'}             | ${'.png'}
+    ${'invalid-path'}                  | ${''}
+    ${''}                              | ${''}
     ${'https://example.com/image.png'} | ${'.png'}
   `('should return $expected for $filePathOrUrl', ({ filePathOrUrl, expected }) => {
     expect(getFileExtension(filePathOrUrl)).toBe(expected);

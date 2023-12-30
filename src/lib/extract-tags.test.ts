@@ -1,5 +1,5 @@
-import { ImaggaResponse } from "../models/imagga";
-import { extractHighConfidenceTags } from "./extract-tags";
+import { ImaggaResponse } from '../models/imagga';
+import { extractHighConfidenceTags } from './extract-tags';
 
 describe('extractHighConfidenceTags', () => {
   const testData = [
@@ -43,9 +43,7 @@ describe('extractHighConfidenceTags', () => {
 
   it.each(testData)('should retrieve tags with confidence above 75 for %p', ({ response, expected }) => {
     const result = extractHighConfidenceTags(response as ImaggaResponse);
-    console.log(result)
-    expect(result).toEqual(
-      expect.arrayContaining(expected),
-    );
+    console.log(result);
+    expect(result).toEqual(expect.arrayContaining(expected));
   });
 });
