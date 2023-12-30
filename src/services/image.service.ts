@@ -32,7 +32,7 @@ class ImageService {
     let objects: string[] = [];
 
     if (enableObjectDetection) {
-      objects = await this.parseImage(
+      objects = await this.evaluateImage(
         imgUrl,
         isUploadedFile,
         authorizationHeader,
@@ -62,7 +62,7 @@ class ImageService {
    * @param authorizationHeader
    * @returns Promise<string[]>
    */
-  static async parseImage(
+  static async evaluateImage(
     imageUrl: string,
     isUploadedFile: boolean,
     authorizationHeader: string,
