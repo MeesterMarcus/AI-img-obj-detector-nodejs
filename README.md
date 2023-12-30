@@ -10,6 +10,14 @@
 * POST `http://localhost:3000/images`
 * Postman collection available in resources folder
 
+## Technologies Used
+* NodeJS
+* ExpressJS
+* MongoDB
+* Mongoose
+* Imagga API
+* TypeScript
+
 ## Author
 
 **Marcus Lorenzana**

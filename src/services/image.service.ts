@@ -13,7 +13,7 @@ class ImageService {
      */
     static async createImage(body: ImagePostRequestParams, authorizationHeader: string): Promise<ImageMetadataEntity> {
         const imgUrl = body.imgUrl;
-        const label = body.label ? body.label : faker.datatype.uuid();
+        const label = body.label ? body.label : faker.string.uuid();
         const enableObjectDetection = body.enableObjectDetection;
         let objects: string[] = [];
 
