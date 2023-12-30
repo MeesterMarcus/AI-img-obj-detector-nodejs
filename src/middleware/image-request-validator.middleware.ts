@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ImagesGetQueryParams } from '../models/image-metadata';
+import { HTTP_STATUS } from '../constants/http-status.constants';
+import { INVALID_REQUEST_OBJECTS_VALUE, INVALID_REQUEST_OBJECTS } from '../constants/response-messages.constants';
 
 /**
  * Ensure that the passed in query parameters are valid
@@ -17,10 +19,10 @@ export function validateImageGetParams(req: Request, res: Response, next: NextFu
         if (!qsParams.objects || isValidImageGetParams(qsParams)) {
             next();
         } else {
-            res.status(400).send('Invalid request: Invalid objects value.');
+            res.status(HTTP_STATUS.BAD_REQUEST).send({message: INVALID_REQUEST_OBJECTS_VALUE});
         }
     } else {
-        res.status(400).send('Invalid request: Query should be empty or have only "objects" key.');
+        res.status(HTTP_STATUS.BAD_REQUEST).send({message: INVALID_REQUEST_OBJECTS});
     }
 }
 
@@ -42,7 +44,6 @@ const isValidImageGetParams = (param: ImagesGetQueryParams) => {
         }
         return true;
     } catch (error: unknown) {
-        console.error('Error parsing query params', error);
         return false;
     }
 }

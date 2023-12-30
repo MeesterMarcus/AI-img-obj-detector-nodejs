@@ -1,9 +1,8 @@
+import { CONFIDENCE_THRESHOLD } from "../constants/tags.constants";
 import { ImaggaResponse, Tag } from "../models/imagga";
 
-const CONFIDENCE_THRESHOLD = 75
-
 /**
- * Retrieve the objects inside the image with a confidence > 70
+ * Retrieve the objects inside the image with a confidence > CONFIDENCE_THRESHOLD
  * @param response : ImaggaResponse
  * @returns : string[]
  */

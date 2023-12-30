@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { HTTP_STATUS } from "../constants/http-status.constants";
+import { INVALID_ID } from "../constants/response-messages.constants";
 
 /**
  * Ensure that the passed in query parameters are valid
@@ -11,7 +13,7 @@ export function validateObjectId(req: Request, res: Response, next: NextFunction
     if (isValidObjectId(id)) {
         next();
     } else {
-        res.status(400).send({ message: 'Invalid request: the id provided is not a correct MongoDB object id.' });
+        res.status(HTTP_STATUS.BAD_REQUEST).send({ message: INVALID_ID });
     }
 
 }

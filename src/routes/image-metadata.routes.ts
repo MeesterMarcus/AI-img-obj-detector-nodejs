@@ -3,8 +3,10 @@ import { validateImageGetParams } from "../middleware/image-request-validator.mi
 import { ImageMetadata } from "../schemas/image-metadata";
 import ImageService from "../services/image.service";
 import { isLocalFile } from "../lib/check-filepath";
-import * as fs from 'fs';
 import { validateObjectId } from "../middleware/object-id-validator.middleware";
+import { HTTP_STATUS } from "../constants/http-status.constants";
+import { FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/response-messages.constants";
+import * as fs from 'fs';
 
 const router = Router();
 const baseUrl = '/images'
@@ -23,7 +25,7 @@ router.get(`${baseUrl}`, validateImageGetParams, async (req: Request, res: Respo
     } else {
         images = await ImageMetadata.find({})
     }
-    return res.status(200).send(images);
+    return res.status(HTTP_STATUS.OKAY).send(images);
 });
 
 /**
@@ -33,9 +35,9 @@ router.get(`${baseUrl}/:id`, validateObjectId, async (req: Request, res: Respons
     const id = req.params.id
     const image = await ImageMetadata.findById(id)
     if (!image) {
-        return res.status(404).send({ message: 'Image not found'})
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({ message: IMAGE_NOT_FOUND })
     }
-    return res.status(200).send(image);
+    return res.status(HTTP_STATUS.OKAY).send(image);
 });
 
 /**
@@ -43,7 +45,7 @@ router.get(`${baseUrl}/:id`, validateObjectId, async (req: Request, res: Respons
  */
 router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response> => {
     if (!req.headers.authorization) {
-        return res.status(401).send('Missing authorization header');
+        return res.status(HTTP_STATUS.UNAUTHORIZED).send(MISSING_AUTH);
     }
     let imgUrl = req.body.imgUrl
     let isUploadedFile = false
@@ -52,7 +54,7 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
         // check if the file provided by client is a remote url or local
         if (isLocalFile(imgUrl)) {
             if (!fs.existsSync(imgUrl)) {
-                return res.status(404).send({ messages: "The file you are attempting to upload does not exist" })
+                return res.status(404).send({ messages: FILE_NOT_FOUND })
             }
             // if it is a local file, upload it to Imagga and set isUploadFile to true
             isUploadedFile = true
@@ -61,15 +63,15 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
             imgUrl = data.result.upload_id
         }
         // update the body and create the image
-        const updatedBody = { ...req.body, imgUrl}
+        const updatedBody = { ...req.body, imgUrl }
         const result = await ImageService.createImage(updatedBody, isUploadedFile, req.headers.authorization);
-            return res.status(200).send({
-                ...result
-            });
+        return res.status(HTTP_STATUS.OKAY).send({
+            ...result
+        });
     }
 
     catch (error) {
-        return res.status(500).send('Error processing image');
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(IMAGE_PROCESSING_FAILED);
     }
 });
 

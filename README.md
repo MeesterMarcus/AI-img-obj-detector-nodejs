@@ -6,7 +6,7 @@
 3. Run the project with `yarn dev` - this will start a local dev server.
 
 ## Endpoints
-* GET `http://localhost:3000/images`
+* **GET** `http://localhost:3000/images`
   - Query Parameters:
     - `objects` (optional): A comma-separated list of objects to search for in the images.
 
@@ -30,7 +30,7 @@
     ]
     ```
 
-* GET `http://localhost:3000/images/:id`
+* **GET** `http://localhost:3000/images/:id`
   - Parameters:
     - `id` (MongoDB ObjectID): The unique identifier of the image you want to fetch.
 
@@ -51,7 +51,7 @@
         "__v": 0
     }
     ```
-* POST `http://localhost:3000/images`
+* **POST** `http://localhost:3000/images`
   - **Request Body:**
     ```json
     {
@@ -75,11 +75,14 @@
     }
     ```
 
-  - **Notes:**
+  - **Fields:**
     - `imgUrl`: Can be a remote image URL or local path to an image.
+    - `label`: The label or description for the image.
+    - `enableObjectDetection`: Set to true to use Imagga for object detection.
     - `dryRun`: Set to true for a dry run.
 
-* Postman collection available in the resources folder.
+##### Postman collection available in the resources folder.
+
 
 ## Technologies Used
 * NodeJS
