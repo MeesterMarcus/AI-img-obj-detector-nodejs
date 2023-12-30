@@ -27,7 +27,6 @@
             ],
             "__v": 0
         }
-        ...
     ]
     ```
 
@@ -56,10 +55,10 @@
   - **Request Body:**
     ```json
     {
-        "imgUrl": "{{imageUrl}}", // Remote image URL or local path to an image
+        "imgUrl": "{{imageUrl}}",
         "label": "fox",
         "enableObjectDetection": true,
-        "dryRun": true // Set to true for a dry run
+        "dryRun": true
     }
     ```
 
