@@ -5,7 +5,7 @@ import ImageService from "../services/image.service";
 import { isLocalFile } from "../lib/check-filepath";
 import { validateObjectId } from "../middleware/object-id-validator.middleware";
 import { HTTP_STATUS } from "../constants/http-status.constants";
-import { IMAGE_FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/messages.constants";
+import { IMAGE_FILE_NOT_FOUND, IMAGE_FILE_TYPE_UNSUPPORTED, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/messages.constants";
 import * as fs from 'fs';
 import { isValidImage } from "../lib/valid-image";
 
@@ -53,7 +53,7 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
 
     if (!isValidImage(imgUrl)) {
         return res.status(HTTP_STATUS.BAD_REQUEST).send({
-            message: 'The file type provided is not supported'
+            message: IMAGE_FILE_TYPE_UNSUPPORTED
         })
     }
 
