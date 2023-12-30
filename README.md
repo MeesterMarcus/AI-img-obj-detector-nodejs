@@ -1,16 +1,16 @@
 # Image Object Detection API
 
 ## Install
-1. Install **yarn** and **nodejs**.
-2. Build the project with **yarn install**.
-3. Run the project with **yarn dev** - this will start a local dev server.
+1. Install `yarn` and `nodejs`.
+2. Build the project with `yarn install`.
+3. Run the project with `yarn dev` - this will start a local dev server.
 
 ## Endpoints
 * GET `http://localhost:3000/images`
   - Query Parameters:
     - `objects` (optional): A comma-separated list of objects to search for in the images.
 
-  - **Example Response**:
+  - **Example Response:**
     ```json
     [
         {
@@ -35,7 +35,7 @@
   - Parameters:
     - `id` (MongoDB ObjectID): The unique identifier of the image you want to fetch.
 
-  - **Example Response**:
+  - **Example Response:**
     ```json
     {
         "_id": "658f4b5edb89d2d58565ffff",
@@ -53,7 +53,7 @@
     }
     ```
 * POST `http://localhost:3000/images`
-  - **Request Body**:
+  - **Request Body:**
     ```json
     {
         "imgUrl": "{{imageUrl}}", // Remote image URL or local path to an image
@@ -63,7 +63,7 @@
     }
     ```
 
-  - **Example Response**:
+  - **Example Response:**
     ```json
     {
         "imgUrl": "https://maymont.org/wp-content/uploads/2020/04/banner-red-fox.jpg",
