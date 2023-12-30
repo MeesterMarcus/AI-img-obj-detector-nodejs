@@ -10,5 +10,5 @@ export function checkAuthorization(
   if (!req.headers.authorization) {
     return res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: MISSING_AUTH });
   }
-  next(); // Continue to the next middleware or route handler
+  next();
 }
