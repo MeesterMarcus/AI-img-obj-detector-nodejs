@@ -38,13 +38,11 @@ router.get(
   validateObjectId,
   async (req: Request, res: Response): Promise<Response> => {
     try {
-      const id = req.params.id;
+      const { id } = req.params;
       const image = await ImageService.getImageById(id);
 
       if (!image) {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send({ message: IMAGE_NOT_FOUND });
+        throw Error(IMAGE_NOT_FOUND);
       }
 
       return res.status(HTTP_STATUS.OKAY).send(image);
@@ -64,7 +62,7 @@ router.post(
   validateImage,
   async (req: Request, res: Response): Promise<Response> => {
     const auth = req.headers.authorization as string;
-    let imgUrl = req.body.imgUrl;
+    let { imgUrl } = req.body;
     let isUploadedFile = false;
 
     try {
