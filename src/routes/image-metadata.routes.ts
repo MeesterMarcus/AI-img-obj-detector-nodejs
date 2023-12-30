@@ -5,8 +5,9 @@ import ImageService from "../services/image.service";
 import { isLocalFile } from "../lib/check-filepath";
 import { validateObjectId } from "../middleware/object-id-validator.middleware";
 import { HTTP_STATUS } from "../constants/http-status.constants";
-import { FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/messages.constants";
+import { IMAGE_FILE_NOT_FOUND, IMAGE_NOT_FOUND, IMAGE_PROCESSING_FAILED, MISSING_AUTH } from "../constants/messages.constants";
 import * as fs from 'fs';
+import { isValidImage } from "../lib/valid-image";
 
 const router = Router();
 const baseUrl = '/images'
@@ -50,11 +51,17 @@ router.post(`${baseUrl}`, async (req: Request, res: Response): Promise<Response>
     let imgUrl = req.body.imgUrl
     let isUploadedFile = false
 
+    if (!isValidImage(imgUrl)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({
+            message: 'The file type provided is not supported'
+        })
+    }
+
     try {
         // check if the file provided by client is a remote url or local
         if (isLocalFile(imgUrl)) {
             if (!fs.existsSync(imgUrl)) {
-                return res.status(404).send({ messages: FILE_NOT_FOUND })
+                return res.status(404).send({ messages: IMAGE_FILE_NOT_FOUND })
             }
             // if it is a local file, upload it to Imagga and set isUploadFile to true
             isUploadedFile = true

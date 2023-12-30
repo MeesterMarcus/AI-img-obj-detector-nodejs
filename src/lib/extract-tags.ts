@@ -10,6 +10,6 @@ export const extractHighConfidenceTags = (response: ImaggaResponse): string[] =>
     const tags = response.result.tags;
 
     return tags
-        .filter((tag: Tag) => tag.confidence > CONFIDENCE_THRESHOLD) 
+        .filter((tag: Tag) => tag.confidence >= CONFIDENCE_THRESHOLD) 
         .map((tag: Tag) => tag.tag.en);
 }
