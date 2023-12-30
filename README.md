@@ -27,7 +27,7 @@
             ],
             "__v": 0
         }
-        // ...
+        ...
     ]
     ```
 
@@ -75,6 +75,10 @@
         ]
     }
     ```
+
+  - **Notes:**
+    - `imgUrl`: Can be a remote image URL or local path to an image.
+    - `dryRun`: Set to true for a dry run.
 
 * Postman collection available in the resources folder.
 
