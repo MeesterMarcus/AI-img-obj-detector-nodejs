@@ -6,6 +6,9 @@ import FormData from "form-data";
 import * as fs from 'fs';
 import { extractHighConfidenceTags } from "../lib/extract-tags";
 
+/**
+ * Singleton ImageService that provides operations on image data
+ */
 class ImageService {
     /**
      * Create an image and add to the database, applying object detection if requested
