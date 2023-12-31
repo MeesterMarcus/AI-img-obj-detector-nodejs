@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { ImageMetadata } from '../models/image-metadata';
+import { Tags } from 'exifreader';
 
 /**
  * Workaround to enforce TypeScript typings with regards to Mongoose / MongoDB.
@@ -11,6 +12,7 @@ interface imageModelInterface extends mongoose.Model<ImageMetadataDoc> {
 
 interface ImageMetadataDoc extends mongoose.Document {
   imageSource: string;
+  imageProperties: Tags
   label: string;
   objects: Array<string>;
 }
@@ -19,6 +21,10 @@ const imageMetadataSchema = new mongoose.Schema({
   imageSource: {
     type: String,
     required: true,
+  },
+  imageProperties: {
+    type: Object,
+    required: true
   },
   label: {
     type: String,

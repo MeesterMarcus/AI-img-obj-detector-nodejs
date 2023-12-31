@@ -9,6 +9,7 @@ import { checkAuthorization } from '../middleware/auth-check.middleware';
 import { handleImageServiceError } from '../lib/handle-error';
 import { validateImage } from '../middleware/validate-image.middleware';
 import { parseQueryObjects } from '../lib/parse-query';
+import { getImageProperties } from '../lib/retrieve-image-details';
 
 const router = Router();
 const baseUrl = '/images';
@@ -64,7 +65,7 @@ router.post(
     const auth = req.headers.authorization as string;
     let { imageSource } = req.body;
     let isUploadedFile = false;
-
+    const imageProperties = await getImageProperties(imageSource)
     try {
       // check if the file provided by client is a remote url or local
       if (isLocalFile(imageSource)) {
@@ -75,6 +76,7 @@ router.post(
       const updatedBody = { ...req.body, imageSource };
       const result = await ImageService.createImage(
         updatedBody,
+        imageProperties,
         isUploadedFile,
         auth,
       );

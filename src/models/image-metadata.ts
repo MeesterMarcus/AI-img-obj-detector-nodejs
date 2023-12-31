@@ -2,6 +2,8 @@
  * Image Metadata Models
  */
 
+import { Tags } from "exifreader";
+
 export interface ImagesGetQueryParams {
   objects?: string;
 }
@@ -12,6 +14,7 @@ export interface ImageMetadataEntity extends ImageMetadata {
 
 export interface ImageMetadata {
   imageSource: string;
+  imageProperties: Tags
   label: string;
   objects: Array<string>;
 }

@@ -9,6 +9,7 @@ import FormData from 'form-data';
 import * as fs from 'fs';
 import { extractHighConfidenceTags } from '../lib/extract-tags';
 import { IMAGE_FILE_NOT_FOUND } from '../constants/messages.constants';
+import { Tags } from 'exifreader';
 
 /**
  * Singleton ImageService that provides operations on image data
@@ -39,6 +40,7 @@ class ImageService {
    */
   static async createImage(
     body: ImagePostRequestParams,
+    imageProperties: Tags,
     isUploadedFile: boolean,
     authorizationHeader: string,
   ): Promise<ImageMetadataEntity> {
@@ -55,10 +57,8 @@ class ImageService {
       );
     }
 
-    const entity = { imageSource, label, objects };
-
+    const entity = { imageSource, label, objects, imageProperties };
     const image = ImageMetadata.build(entity);
-
     let result;
     // if dryRun enabled, do not persist data
     if (!body.dryRun) {
