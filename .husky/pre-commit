@@ -11,14 +11,14 @@ NC='\033[0m' # No Color
 run_and_check() {
   echo -e "${YELLOW}Running $1...${NC}"
   if $2; then
-    echo -e "${GREEN}$1 succeeded${NC}"
+    echo -e "\n${GREEN}$1 succeeded${NC}\n"
   else
-    echo -e "${RED}$1 failed${NC}"
+    echo -e "\n${RED}$1 failed${NC}\n"
   fi
 }
 
 # Running tests
-run_and_check "tests" "yarn test"
+run_and_check "Tests" "yarn test"
 
 # Running linter
-run_and_check "linter" "yarn lint"
+run_and_check "Linter" "yarn lint"
