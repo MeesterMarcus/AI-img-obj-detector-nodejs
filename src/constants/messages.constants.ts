@@ -17,4 +17,5 @@ export const IMAGE_FILE_TYPE_UNSUPPORTED =
   'The file type provided is not supported';
 
 // Auth
-export const MISSING_AUTH = 'Missing authorization header';
+export const MISSING_AUTH = 'Missing authorization header for Imagga';
+export const AUTH_FAILED = 'Authentication for Imagga failed';

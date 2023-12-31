@@ -5,7 +5,7 @@ import { isLocalFile } from '../lib/check-filepath';
 import { validateObjectId } from '../middleware/object-id-validator.middleware';
 import { HTTP_STATUS } from '../constants/http-status.constants';
 import { IMAGE_NOT_FOUND } from '../constants/messages.constants';
-import { checkAuthorization } from '../middleware/auth-check.middleware';
+import { authenticateImagga } from '../middleware/auth-imagga';
 import { handleImageServiceError } from '../lib/handle-error';
 import { validateImage } from '../middleware/validate-image.middleware';
 import { parseQueryObjects } from '../lib/parse-query';
@@ -59,13 +59,13 @@ router.get(
  */
 router.post(
   `${baseUrl}`,
-  checkAuthorization,
+  authenticateImagga,
   validateImage,
   async (req: Request, res: Response): Promise<Response> => {
     const auth = req.headers.authorization as string;
     let { imageSource } = req.body;
     let isUploadedFile = false;
-    const imageProperties = await getImageProperties(imageSource)
+    const imageProperties = await getImageProperties(imageSource);
     try {
       // check if the file provided by client is a remote url or local
       if (isLocalFile(imageSource)) {
