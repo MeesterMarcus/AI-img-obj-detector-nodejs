@@ -55,7 +55,7 @@
   - **Request Body:**
     ```json
     {
-        "imgUrl": "{{imageUrl}}",
+        "imageSource": "{{imageSource}}",
         "label": "fox",
         "enableObjectDetection": true,
         "dryRun": true
@@ -65,7 +65,7 @@
   - **Example Response:**
     ```json
     {
-        "imgUrl": "https://maymont.org/wp-content/uploads/2020/04/banner-red-fox.jpg",
+        "imageSource": "https://maymont.org/wp-content/uploads/2020/04/banner-red-fox.jpg",
         "label": "fox",
         "objects": [
             "red fox",
@@ -76,7 +76,7 @@
     ```
 
   - **Fields:**
-    - `imgUrl`: Can be a remote image URL or a local path to an image. For local paths, use the format specific to your operating system. 
+    - `imageSource`: Can be a remote image URL or a local path to an image. For local paths, use the format specific to your operating system. 
       - Example for MacOS/Linux: `/Users/marcuslorenzana/Desktop/pup.jpg`
       - Example for Windows: `C:\\Users\\Mikus\\Desktop\\dog.jpg`
     - `label`: The label or description for the image.

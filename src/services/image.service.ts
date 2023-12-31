@@ -42,20 +42,20 @@ class ImageService {
     isUploadedFile: boolean,
     authorizationHeader: string,
   ): Promise<ImageMetadataEntity> {
-    const imgUrl = body.imgUrl;
+    const imageSource = body.imageSource;
     const label = body.label ? body.label : faker.string.uuid();
     const enableObjectDetection = body.enableObjectDetection;
     let objects: string[] = [];
 
     if (enableObjectDetection) {
       objects = await this.evaluateImage(
-        imgUrl,
+        imageSource,
         isUploadedFile,
         authorizationHeader,
       );
     }
 
-    const entity = { imgUrl, label, objects };
+    const entity = { imageSource, label, objects };
 
     const image = ImageMetadata.build(entity);
 
@@ -126,16 +126,16 @@ class ImageService {
   }
 
   static async handleLocalFile(
-    imgUrl: string,
+    imageSource: string,
     authorizationHeader: string,
   ): Promise<string> {
-    if (!fs.existsSync(imgUrl)) {
+    if (!fs.existsSync(imageSource)) {
       throw Error(IMAGE_FILE_NOT_FOUND);
     }
     // If it is a local file, upload it to Imagga and set
     // isUploadFile to true
     const response = await ImageService.uploadImage(
-      imgUrl,
+      imageSource,
       authorizationHeader,
     );
     const { data } = response;

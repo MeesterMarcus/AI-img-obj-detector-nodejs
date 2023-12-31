@@ -11,13 +11,13 @@ export interface ImageMetadataEntity extends ImageMetadata {
 }
 
 export interface ImageMetadata {
-  imgUrl: string;
+  imageSource: string;
   label: string;
   objects: Array<string>;
 }
 
 export interface ImagePostRequestParams {
-  imgUrl: string; // remote image url or local file path
+  imageSource: string; // remote image url or local file path
   label?: string;
   enableObjectDetection?: boolean;
   dryRun?: boolean;

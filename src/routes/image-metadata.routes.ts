@@ -62,17 +62,17 @@ router.post(
   validateImage,
   async (req: Request, res: Response): Promise<Response> => {
     const auth = req.headers.authorization as string;
-    let { imgUrl } = req.body;
+    let { imageSource } = req.body;
     let isUploadedFile = false;
 
     try {
       // check if the file provided by client is a remote url or local
-      if (isLocalFile(imgUrl)) {
+      if (isLocalFile(imageSource)) {
         isUploadedFile = true;
-        imgUrl = await ImageService.handleLocalFile(imgUrl, auth);
+        imageSource = await ImageService.handleLocalFile(imageSource, auth);
       }
       // update the body and create the image
-      const updatedBody = { ...req.body, imgUrl };
+      const updatedBody = { ...req.body, imageSource };
       const result = await ImageService.createImage(
         updatedBody,
         isUploadedFile,

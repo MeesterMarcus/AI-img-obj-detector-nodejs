@@ -10,13 +10,13 @@ interface imageModelInterface extends mongoose.Model<ImageMetadataDoc> {
 }
 
 interface ImageMetadataDoc extends mongoose.Document {
-  imgUrl: string;
+  imageSource: string;
   label: string;
   objects: Array<string>;
 }
 
 const imageMetadataSchema = new mongoose.Schema({
-  imgUrl: {
+  imageSource: {
     type: String,
     required: true,
   },
