@@ -10,25 +10,32 @@
   - Query Parameters:
     - `objects` (optional): A comma-separated list of objects to search for in the images.
 
-  - **Example Response:**
-    ```json
-    [
-        {
-            "_id": "658f4b5edb89d2d58565ffff",
-            "imgData": "https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg",
-            "label": "cat",
-            "objects": [
-                "kitty",
-                "cat",
-                "feline",
-                "domestic",
-                "animal",
-                "pet"
-            ],
-            "__v": 0
-        }
-    ]
-    ```
+- **Example Response:**
+  ```json
+  [
+    {
+      "_id": "658f4b5edb89d2d58565ffff",
+      "imageSource": "https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg",
+      "imageProperties": {
+        "Bits Per Sample": {
+          "value": 8,
+          "description": "8"
+        },
+        ...
+      },
+      "label": "cat",
+      "objects": [
+        "kitty",
+        "cat",
+        "feline",
+        "domestic",
+        "animal",
+        "pet"
+      ],
+      "__v": 0
+    }
+  ]
+  ```
 
 * **GET** `http://localhost:3000/images/:id`
   - Parameters:
@@ -37,20 +44,28 @@
   - **Example Response:**
     ```json
     {
-        "_id": "658f4b5edb89d2d58565ffff",
-        "imgData": "https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg",
-        "label": "cat",
-        "objects": [
-            "kitty",
-            "cat",
-            "feline",
-            "domestic",
-            "animal",
-            "pet"
-        ],
-        "__v": 0
+      "_id": "658f4b5edb89d2d58565ffff",
+      "imageSource": "https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg",
+      "imageProperties": {
+        "Bits Per Sample": {
+          "value": 8,
+          "description": "8"
+        },
+        ...
+      },
+      "label": "cat",
+      "objects": [
+        "kitty",
+        "cat",
+        "feline",
+        "domestic",
+        "animal",
+        "pet"
+      ],
+      "__v": 0
     }
     ```
+
 * **POST** `http://localhost:3000/images`
   - **Request Body:**
     ```json
@@ -66,12 +81,20 @@
     ```json
     {
         "imageSource": "https://maymont.org/wp-content/uploads/2020/04/banner-red-fox.jpg",
+        "imageProperties": {
+            "Bits Per Sample": {
+                "value": 8,
+                "description": "8"
+            },
+            ...
+        },
         "label": "fox",
         "objects": [
             "red fox",
             "fox",
             "canine"
-        ]
+        ],
+        "__v": 0
     }
     ```
 
