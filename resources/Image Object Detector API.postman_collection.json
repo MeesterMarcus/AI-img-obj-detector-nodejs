@@ -73,7 +73,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"imgUrl\": \"https://i.natgeofe.com/n/9b97e60e-e8db-4961-853b-d68ba28d7629/red-fox_thumb.JPG\",\r\n    \"label\": \"fox\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": false\r\n}",
+					"raw": "{\r\n    \"imageSource\": \"C:\\\\Users\\\\Mikus\\\\Desktop\\\\dog.jpg\",\r\n    \"label\": \"pupper\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
