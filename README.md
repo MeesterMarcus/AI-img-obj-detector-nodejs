@@ -76,7 +76,9 @@
     ```
 
   - **Fields:**
-    - `imgUrl`: Can be a remote image URL or local path to an image.
+    - `imgUrl`: Can be a remote image URL or a local path to an image. For local paths, use the format specific to your operating system. 
+      - Example for MacOS/Linux: `/Users/marcuslorenzana/Desktop/pup.jpg`
+      - Example for Windows: `C:\\Users\\Mikus\\Desktop\\dog.jpg`
     - `label`: The label or description for the image.
     - `enableObjectDetection`: Set to true to use Imagga for object detection.
     - `dryRun`: Set to true for a dry run.
