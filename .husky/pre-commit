@@ -1,5 +1,16 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn test
-yarn lint
+# Color variables
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Running tests
+echo "${YELLOW}Running tests...${NC}"
+yarn test && echo "${GREEN}Tests completed.${NC}" || echo "${RED}Tests failed.${NC}"
+
+# Running linter
+echo "${YELLOW}Running linter...${NC}"
+yarn lint && echo "${GREEN}Linting completed.${NC}" || echo "${RED}Linting failed.${NC}"
