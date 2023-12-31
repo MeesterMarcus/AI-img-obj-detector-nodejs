@@ -54,26 +54,11 @@
 		{
 			"name": "Add Image",
 			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "{{apiSecret}}",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "{{apiKey}}",
-							"type": "string"
-						}
-					]
-				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"imageSource\": \"C:\\\\Users\\\\Mikus\\\\Desktop\\\\dog.jpg\",\r\n    \"label\": \"pupper\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": false\r\n}",
+					"raw": "{\r\n    \"imageSource\": \"{{macImageLocal}}\",\r\n    \"label\": \"pupper\",\r\n    \"enableObjectDetection\": true,\r\n    \"dryRun\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
