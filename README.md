@@ -1,4 +1,9 @@
-# Image Object Detection API
+# Image Object Detection API - NodeJS
+
+This API allows a user to store image data as well as objects detected within the images while leveraging the Imagga
+API.
+
+Java Variant found here: https://github.com/MeesterMarcus/img-obj-detector-heb-java
 
 ## Install
 1. Install `yarn` and `nodejs`.
