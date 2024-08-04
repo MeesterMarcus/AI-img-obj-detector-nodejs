@@ -1,4 +1,4 @@
-# Image Object Detection API - NodeJS
+# AI Image Object Detection API - NodeJS
 
 This API allows a user to store image data as well as objects detected within the images while leveraging the Imagga
 API.
