@@ -9,7 +9,7 @@ export interface ImagesGetQueryParams {
 }
 
 export interface ImageMetadataEntity extends ImageMetadata {
-  _id: string;
+  _id?: string;
 }
 
 export interface ImageMetadata {

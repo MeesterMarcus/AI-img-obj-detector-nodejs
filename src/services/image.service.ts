@@ -66,7 +66,7 @@ class ImageService {
     }
 
     return {
-      _id: result?._id,
+      _id: result?._id?.toString(),
       ...entity,
     };
   }

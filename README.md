@@ -7,8 +7,15 @@ Java Variant found here: https://github.com/MeesterMarcus/img-obj-detector-heb-j
 
 ## Install
 1. Install `yarn` and `nodejs`.
-2. Build the project with `yarn install`.
-3. Run the project with `yarn dev` - this will start a local dev server.
+2. Set `MONGO_DB_CONNECTION_STRING` in your environment or a `.env` file.
+   - Example: `mongodb://localhost:27017/ai-image-detector`
+3. If you want object detection through Imagga, provide authentication in one of these ways:
+   - Send an `Authorization` header with your request.
+   - Or set `AUTHORIZATION` in your environment or `.env` file.
+   - Format: `Basic <base64(api_key:api_secret)>`
+   - Example generation command: `printf '%s' 'api_key:api_secret' | base64`
+4. Build the project with `yarn install`.
+5. Run the project with `yarn dev` - this will start a local dev server.
 
 ## Endpoints
 * **GET** `http://localhost:3000/images`

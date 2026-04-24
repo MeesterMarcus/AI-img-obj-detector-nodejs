@@ -13,7 +13,13 @@ app.use('/', detectorRouter);
 
 // Connect Mongoose
 async function connectToDatabase() {
-  const dbUri = process.env.MONGO_DB_CONNECTION_STRING || 'defaultKey';
+  const dbUri = process.env.MONGO_DB_CONNECTION_STRING;
+
+  if (!dbUri) {
+    throw new Error(
+      'Missing MONGO_DB_CONNECTION_STRING environment variable. It must start with "mongodb://" or "mongodb+srv://".',
+    );
+  }
 
   try {
     await mongoose.connect(dbUri);

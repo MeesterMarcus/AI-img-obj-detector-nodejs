@@ -7,11 +7,15 @@ export const authenticateImagga = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (!process.env.AUTHORIZATION) {
+  const requestAuthorization = req.headers.authorization?.trim();
+  const environmentAuthorization = process.env.AUTHORIZATION?.trim();
+  const authorizationHeader =
+    requestAuthorization || environmentAuthorization;
+
+  if (!authorizationHeader) {
     return res.status(HTTP_STATUS.UNAUTHORIZED).send({ message: MISSING_AUTH });
   }
   try {
-    const authorizationHeader = process.env.AUTHORIZATION;
     req.headers.authorization = authorizationHeader;
     next();
   } catch (error) {
